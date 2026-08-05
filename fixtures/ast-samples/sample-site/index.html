@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Calculator & Task Tracker</title>
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="/home" id="nav-home">Home</a>
+      <a href="/tasks" id="nav-tasks">Tasks</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Welcome to Sentinel QA App</h1>
+    
+    <form id="calc-form" action="/calculate" method="POST">
+      <input type="number" id="num1" name="firstNum" placeholder="First number" required />
+      <input type="number" id="num2" name="secondNum" placeholder="Second number" required />
+      <button type="submit" id="add-btn" data-testid="calculate-button">Add Numbers</button>
+    </form>
+
+    <div id="todo-section">
+      <input type="text" id="task-input" placeholder="New task..." aria-label="Task name" />
+      <button id="add-task-btn" onclick="addTask()">Add Task</button>
+    </div>
+  </main>
+</body>
+</html>

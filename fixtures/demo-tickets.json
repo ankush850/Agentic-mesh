@@ -1,0 +1,102 @@
+[
+  {
+    "key": "SQA-2",
+    "summary": "Calculator: add two numbers and show the sum",
+    "demoFile": "demo/calculator.html",
+    "acceptanceCriteria": [
+      "Given the calculator page, when the user types '5' into the first number field and '7' into the second number field and clicks Add, the result shows 'Sum: 12'",
+      "Given the calculator page, when the user types '10' into the first number field and '4' into the second number field and clicks Add, the result shows 'Sum: 14'",
+      "Given the calculator page, when the user leaves both number fields empty and clicks Add, the result shows 'Sum: 0'"
+    ]
+  },
+  {
+    "key": "SQA-3",
+    "summary": "Contact form: submit details and confirm or validate",
+    "demoFile": "demo/contact-form.html",
+    "acceptanceCriteria": [
+      "Given the contact page, when the user fills Name with 'Amit', Email with 'amit@example.com', Message with 'Hello there' and clicks Submit, they should see 'Thank you, Amit! Your message has been sent.'",
+      "Given the contact page, when the user leaves the Name field empty and clicks Submit, they should see the error 'Please fill all fields'",
+      "Given the contact page, the heading 'Contact Us' should be visible"
+    ]
+  },
+  {
+    "key": "SQA-4",
+    "summary": "Notes: add notes to a list",
+    "demoFile": "demo/notes.html",
+    "acceptanceCriteria": [
+      "Given the notes page, when the user types 'Buy milk' into the note input and clicks Add, the notes list should contain 'Buy milk'",
+      "Given the notes page, when the user types 'Call mom' into the note input and clicks Add, the notes list should contain 'Call mom'",
+      "Given the notes page, when the user clicks Add while the note input is empty, no new note should be added"
+    ]
+  },
+  {
+    "key": "SQA-5",
+    "summary": "Currency converter: convert USD to EUR",
+    "demoFile": "demo/currency.html",
+    "acceptanceCriteria": [
+      "Given the currency page, when the user types '100' into the amount field and clicks Convert to EUR, the result shows '100 USD = 85.00 EUR'",
+      "Given the currency page, when the user types '200' into the amount field and clicks Convert to EUR, the result shows '200 USD = 170.00 EUR'",
+      "Given the currency page, the heading 'Currency Converter' should be visible"
+    ]
+  },
+  {
+    "key": "SQA-6",
+    "summary": "Theme toggle: switch between light and dark mode",
+    "demoFile": "demo/theme-toggle.html",
+    "acceptanceCriteria": [
+      "Given the theme page showing 'Light mode', when the user clicks Toggle Theme, the label should show 'Dark mode'",
+      "Given the theme page showing 'Dark mode', when the user clicks Toggle Theme again, the label should show 'Light mode'",
+      "Given the theme page, the initial label should show 'Light mode'"
+    ]
+  },
+  {
+    "key": "SQA-7",
+    "summary": "Fruit search: filter a list as you type",
+    "demoFile": "demo/search-filter.html",
+    "acceptanceCriteria": [
+      "Given the fruit search page, when the user types 'ap' into the search input, the list should show 'Apple' and hide 'Banana'",
+      "Given the fruit search page, when the user types 'zzz' into the search input, they should see 'No results'",
+      "Given the fruit search page, when the search input is empty, all four fruits 'Apple', 'Banana', 'Mango' and 'Grape' should be visible"
+    ]
+  },
+  {
+    "key": "SQA-8",
+    "summary": "Counter: increment and decrement a value",
+    "demoFile": "demo/counter.html",
+    "acceptanceCriteria": [
+      "Given the counter page showing '0', when the user clicks Increment twice, the count should show '2'",
+      "Given the counter page showing '0', when the user clicks Decrement once, the count should show '-1'",
+      "Given the counter page, the initial count should show '0'"
+    ]
+  },
+  {
+    "key": "SQA-9",
+    "summary": "BMI calculator: compute BMI and category",
+    "demoFile": "demo/bmi.html",
+    "acceptanceCriteria": [
+      "Given the BMI page, when the user types '1.75' into the Height field and '70' into the Weight field and clicks Calculate, the result shows '22.9 (Normal)'",
+      "Given the BMI page, when the user types '1.60' into the Height field and '90' into the Weight field and clicks Calculate, the result shows '35.2 (Obese)'",
+      "Given the BMI page, the heading 'BMI Calculator' should be visible"
+    ]
+  },
+  {
+    "key": "SQA-10",
+    "summary": "Password strength: rate a password as weak, medium or strong",
+    "demoFile": "demo/password-strength.html",
+    "acceptanceCriteria": [
+      "Given the password strength page, when the user types 'abc' into the password input, the strength label should show 'Weak'",
+      "Given the password strength page, when the user types 'Abc12345' into the password input, the strength label should show 'Medium'",
+      "Given the password strength page, when the user types 'Abc12345!@#' into the password input, the strength label should show 'Strong'"
+    ]
+  },
+  {
+    "key": "SQA-11",
+    "summary": "Shopping list: add items to a list",
+    "demoFile": "demo/shopping-list.html",
+    "acceptanceCriteria": [
+      "Given the shopping list page, when the user types 'Bread' into the item input and clicks Add, the list should contain 'Bread'",
+      "Given the shopping list page, when the user types 'Milk' into the item input and clicks Add, the list should contain 'Milk'",
+      "Given the shopping list page, the hint 'Your list is empty.' should be visible before any item is added"
+    ]
+  }
+]

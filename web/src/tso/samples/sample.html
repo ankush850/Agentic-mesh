@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Agentic-mesh Cloud Dashboard and Quality Engineering Portal">
+  <title>Agentic-mesh Enterprise Console</title>
+
+  <!-- External Stylesheets (FR-P5) -->
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Inline Style Block with injection parsing (FR-I3) -->
+  <style>
+    .inline-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.25rem 0.5rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      background-color: var(--surface-3, #16223a);
+      color: var(--accent, #38bdf8);
+    }
+    .inline-badge:hover {
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body class="theme-dark sentinel-app">
+  <!-- Top Navigation Landmark (FR-P2) -->
+  <header class="app-header" role="banner">
+    <nav class="nav-container" aria-label="Main Navigation">
+      <div class="brand-logo">
+        <span class="logo-icon">🛡️</span>
+        <h1 class="brand-title">Agentic-mesh Platform</h1>
+      </div>
+      <ul class="nav-links">
+        <li class="nav-item active"><a href="#dashboard" class="nav-link">Dashboard</a></li>
+        <li class="nav-item"><a href="#test-runs" class="nav-link">Test Runs</a></li>
+        <li class="nav-item"><a href="#self-healing" class="nav-link">Self-Healing</a></li>
+        <li class="nav-item"><a href="#reports" class="nav-link">Reports</a></li>
+        <li class="nav-item"><a href="#settings" class="nav-link">Settings</a></li>
+      </ul>
+      <div class="header-actions">
+        <button id="theme-toggle-btn" class="btn btn-ghost" aria-label="Toggle theme">🌓</button>
+        <button id="notifications-btn" class="btn btn-ghost" aria-label="View notifications">🔔</button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main Content Landmark (FR-P2) -->
+  <main id="main-content" class="app-main" role="main">
+    <!-- Hero / Summary Section -->
+    <section id="summary-section" class="section hero-card" aria-labelledby="summary-heading">
+      <h2 id="summary-heading" class="section-title">Autonomous QA Test Execution & Self-Healing</h2>
+      <p class="section-desc">
+        Real-time telemetry, locator drift compensation, and AI verification for continuous delivery pipelines.
+      </p>
+      <div class="stats-grid">
+        <div class="stat-box" data-metric="total-runs">
+          <span class="stat-label">Total Test Executions</span>
+          <span class="stat-value">1,428</span>
+        </div>
+        <div class="stat-box" data-metric="pass-rate">
+          <span class="stat-label">Pass Rate</span>
+          <span class="stat-value">99.4%</span>
+        </div>
+        <div class="stat-box" data-metric="healed-locators">
+          <span class="stat-label">Healed Locators</span>
+          <span class="stat-value">87</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Run Configuration Form (FR-P2) -->
+    <section id="run-config-section" class="section card-panel">
+      <h3 class="panel-title">Execute New Automated Test Run</h3>
+      <form id="new-run-form" class="qa-form" action="/api/runs" method="POST">
+        <div class="form-group">
+          <label for="suite-name" class="form-label">Test Suite Identifier</label>
+          <input type="text" id="suite-name" name="suiteName" class="form-input" placeholder="e.g. regression-e2e-auth" required>
+        </div>
+
+        <div class="form-group">
+          <label for="target-url" class="form-label">Base Application URL</label>
+          <input type="url" id="target-url" name="targetUrl" class="form-input" placeholder="https://staging.agentic-mesh.io" required>
+        </div>
+
+        <div class="form-group">
+          <label for="environment-select" class="form-label">Execution Target Environment</label>
+          <select id="environment-select" name="environment" class="form-select">
+            <option value="staging">Staging Cluster (US-East)</option>
+            <option value="production">Production Canary (Multi-Region)</option>
+            <option value="ephemeral">Ephemeral PR Preview</option>
+          </select>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" id="login-btn" class="btn btn-primary" onclick="console.log('Execute Run clicked')">
+            Trigger Execution
+          </button>
+          <button type="reset" id="reset-btn" class="btn btn-secondary">
+            Reset Configuration
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Test Cases List with Repeated Siblings (FR-P2 collapsing test) -->
+    <section id="test-list-section" class="section card-panel">
+      <h3 class="panel-title">Active Test Case Roster</h3>
+      <ul id="test-case-list" class="roster-list">
+        <li class="item test-item" data-status="passed">
+          <span class="test-name">Authentication Flow: Valid user password login</span>
+          <span class="status-badge passed">PASSED</span>
+        </li>
+        <li class="item test-item" data-status="passed">
+          <span class="test-name">Locator Drift: Profile button renamed in v2</span>
+          <span class="status-badge healed">HEALED</span>
+        </li>
+        <li class="item test-item" data-status="passed">
+          <span class="test-name">Shopping Cart: Add item to persistent session</span>
+          <span class="status-badge passed">PASSED</span>
+        </li>
+        <li class="item test-item" data-status="passed">
+          <span class="test-name">Checkout Pipeline: Apply discount voucher code</span>
+          <span class="status-badge passed">PASSED</span>
+        </li>
+        <li class="item test-item" data-status="passed">
+          <span class="test-name">Jira Integration: Bi-directional defect sync</span>
+          <span class="status-badge passed">PASSED</span>
+        </li>
+        <li class="item test-item" data-status="passed">
+          <span class="test-name">Session Expiry: Inactive timeout redirect to auth</span>
+          <span class="status-badge passed">PASSED</span>
+        </li>
+        <li class="item test-item" data-status="passed">
+          <span class="test-name">Data Export: Generate compliance audit report</span>
+          <span class="status-badge passed">PASSED</span>
+        </li>
+        <li class="item test-item" data-status="passed">
+          <span class="test-name">Webhook Receiver: Dispatch telemetry alerts</span>
+          <span class="status-badge passed">PASSED</span>
+        </li>
+      </ul>
+    </section>
+  </main>
+
+  <!-- Aside Landmark -->
+  <aside id="agent-telemetry-sidebar" class="app-sidebar" role="complementary">
+    <h4 class="sidebar-heading">Agent Telemetry</h4>
+    <div class="telemetry-card">
+      <span class="telemetry-label">Active Worker Memory</span>
+      <span class="telemetry-stat">142 MB</span>
+    </div>
+  </aside>
+
+  <!-- Footer Landmark (FR-P2) -->
+  <footer id="app-footer" class="app-footer" role="contentinfo">
+    <div class="footer-content">
+      <p class="copyright-notice">© 2026 Agentic-mesh Systems Inc. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="#privacy" class="footer-link">Privacy Policy</a>
+        <a href="#terms" class="footer-link">Terms of Service</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- External Script Reference (FR-P5) -->
+  <script src="app.js"></script>
+
+  <!-- Inline Script Block with injection parsing (FR-I3) -->
+  <script>
+    console.info("Agentic-mesh inline bootstrap initialized successfully.");
+  </script>
+</body>
+</html>
+

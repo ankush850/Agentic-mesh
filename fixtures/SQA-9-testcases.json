@@ -1,0 +1,92 @@
+{
+  "ticket": {
+    "key": "SQA-9",
+    "title": "BMI calculator: compute BMI and category",
+    "description": "As a user I want to compute my BMI so that I can understand if my weight is healthy.\n  Acceptance Criteria:\n Given the BMI page, when the user types '1.75' into the Height field and '70' into the Weight field and clicks Calculate, the result shows '22.9 (Normal)'\n Given the BMI page, when the user types '1.60' into the Height field and '90' into the Weight field and clicks Calculate, the result shows '35.2 (Obese)'\n Given the BMI page, the heading 'BMI Calculator' should be visible",
+    "acceptanceCriteria": [
+      "Given the BMI page, when the user types '1.75' into the Height field and '70' into the Weight field and clicks Calculate, the result shows '22.9 (Normal)'",
+      "Given the BMI page, when the user types '1.60' into the Height field and '90' into the Weight field and clicks Calculate, the result shows '35.2 (Obese)'",
+      "Given the BMI page, the heading 'BMI Calculator' should be visible"
+    ]
+  },
+  "testCases": [
+    {
+      "id": "TC-01",
+      "title": "Calculate BMI for normal weight",
+      "criterion": "Given the BMI page, when the user types '1.75' into the Height field and '70' into the Weight field and clicks Calculate, the result shows '22.9 (Normal)'",
+      "steps": [
+        {
+          "description": "Navigate to the BMI calculator page",
+          "action": "navigate",
+          "target": "/",
+          "value": ""
+        },
+        {
+          "description": "Fill Height field with '1.75'",
+          "action": "fill",
+          "target": "#height",
+          "value": "1.75"
+        },
+        {
+          "description": "Fill Weight field with '70'",
+          "action": "fill",
+          "target": "#weight",
+          "value": "70"
+        },
+        {
+          "description": "Click the Calculate button",
+          "action": "click",
+          "target": "#calculate",
+          "value": ""
+        }
+      ],
+      "expectedOutcome": "22.9 (Normal)"
+    },
+    {
+      "id": "TC-02",
+      "title": "Calculate BMI for obese weight",
+      "criterion": "Given the BMI page, when the user types '1.60' into the Height field and '90' into the Weight field and clicks Calculate, the result shows '35.2 (Obese)'",
+      "steps": [
+        {
+          "description": "Navigate to the BMI calculator page",
+          "action": "navigate",
+          "target": "/",
+          "value": ""
+        },
+        {
+          "description": "Fill Height field with '1.60'",
+          "action": "fill",
+          "target": "#height",
+          "value": "1.60"
+        },
+        {
+          "description": "Fill Weight field with '90'",
+          "action": "fill",
+          "target": "#weight",
+          "value": "90"
+        },
+        {
+          "description": "Click the Calculate button",
+          "action": "click",
+          "target": "#calculate",
+          "value": ""
+        }
+      ],
+      "expectedOutcome": "35.2 (Obese)"
+    },
+    {
+      "id": "TC-03",
+      "title": "Verify BMI Calculator heading is visible",
+      "criterion": "Given the BMI page, the heading 'BMI Calculator' should be visible",
+      "steps": [
+        {
+          "description": "Navigate to the BMI calculator page",
+          "action": "navigate",
+          "target": "/",
+          "value": ""
+        }
+      ],
+      "expectedOutcome": "Heading text 'BMI Calculator' is visible"
+    }
+  ]
+}

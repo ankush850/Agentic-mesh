@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agentic-mesh Autonomous Test & Self-Healing Report</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --border: #334155;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --primary: #38bdf8;
+      --success: #10b981;
+      --healed: #8b5cf6;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding: 2rem;
+    }
+    .container { max-width: 1200px; margin: 0 auto; }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .logo-group h1 { font-size: 1.875rem; font-weight: 700; color: #fff; }
+    .logo-group .subtitle { color: var(--primary); font-size: 0.95rem; font-weight: 500; }
+    .report-date { color: var(--text-muted); font-size: 0.875rem; text-align: right; }
+
+    .ticket-header {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--primary);
+      padding: 1.25rem;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+    }
+    .ticket-badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--primary);
+      background: rgba(56, 189, 248, 0.1);
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-bottom: 0.5rem;
+    }
+    .ticket-desc { color: var(--text-muted); font-size: 0.9rem; margin-top: 0.25rem; }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+    .metric-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem;
+      text-align: center;
+    }
+    .metric-value { font-size: 2.25rem; font-weight: 700; margin-top: 0.25rem; }
+    .metric-label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); }
+    .val-primary { color: var(--primary); }
+    .val-success { color: var(--success); }
+    .val-healed { color: var(--healed); }
+    .val-warning { color: var(--warning); }
+    .val-danger { color: var(--danger); }
+
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .section-title .count {
+      background: rgba(255,255,255,0.1);
+      font-size: 0.8rem;
+      padding: 2px 8px;
+      border-radius: 12px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 2.5rem;
+    }
+    th, td {
+      padding: 0.875rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.875rem;
+    }
+    th {
+      background: rgba(0, 0, 0, 0.2);
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+    }
+    tr:last-child td { border-bottom: none; }
+    code {
+      background: rgba(0,0,0,0.4);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.825rem;
+      color: #e2e8f0;
+    }
+    code.healed-pill {
+      background: rgba(139, 92, 246, 0.2);
+      color: #c4b5fd;
+      border: 1px solid rgba(139, 92, 246, 0.4);
+    }
+    .badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+    .badge-model { background: #334155; color: #cbd5e1; }
+    .badge-healed { background: rgba(139, 92, 246, 0.25); color: #c4b5fd; }
+    .badge-history { background: rgba(245, 158, 11, 0.2); color: #fde68a; }
+
+    .conf-bar-container { display: flex; align-items: center; gap: 0.5rem; width: 100px; }
+    .conf-bar { height: 6px; border-radius: 3px; }
+    .conf-high { background: var(--success); }
+    .conf-mid { background: var(--warning); }
+    .conf-low { background: var(--danger); }
+
+    .test-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+      transition: border-color 0.2s;
+    }
+    .test-card.status-passed { border-left: 4px solid var(--success); }
+    .test-card.status-healed { border-left: 4px solid var(--healed); }
+    .test-card.status-flaky { border-left: 4px solid var(--warning); }
+    .test-card.status-failed { border-left: 4px solid var(--danger); }
+
+    .test-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+    .test-title { display: flex; align-items: center; gap: 0.75rem; font-size: 1rem; }
+    .status-indicator {
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+    .status-passed { background: rgba(16, 185, 129, 0.2); color: var(--success); }
+    .status-healed { background: rgba(139, 92, 246, 0.2); color: var(--healed); }
+    .status-flaky { background: rgba(245, 158, 11, 0.2); color: var(--warning); }
+    .status-failed { background: rgba(239, 68, 68, 0.2); color: var(--danger); }
+    .test-meta { display: flex; align-items: center; gap: 0.5rem; }
+    .duration { color: var(--text-muted); font-size: 0.85rem; }
+    .test-criterion { font-size: 0.875rem; color: var(--text-muted); }
+    .test-error {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #fca5a5;
+      padding: 0.75rem;
+      border-radius: 6px;
+      margin-top: 0.75rem;
+      font-size: 0.85rem;
+    }
+
+    .diff-container {
+      display: flex;
+      gap: 1rem;
+      margin-top: 0.5rem;
+      overflow-x: auto;
+    }
+    .diff-screenshot img {
+      max-width: 320px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      display: block;
+      margin-top: 4px;
+    }
+    .screenshot-diff-details { margin-top: 6px; font-size: 0.8rem; cursor: pointer; color: var(--primary); }
+    .empty-state { text-align: center; color: var(--text-muted); padding: 2rem !important; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo-group">
+        <h1>Agentic-mesh</h1>
+        <div class="subtitle">Autonomous AI Regression & Locator Self-Healing Engine</div>
+      </div>
+      <div class="report-date">
+        Generated: 11/1/2026, 1:05:24 AM<br />
+        Engine: bug0inc/qa-agent + Healenium Similarity
+      </div>
+    </header>
+
+    
+    <div class="ticket-header">
+      <div class="ticket-badge">JIRA TICKET: SQA-1</div>
+      <h2>User Authentication and Todo Management Flow</h2>
+      <p class="ticket-desc">As a registered user, I want to securely log in, manage my daily tasks, and safely log out.
+  Acceptance Criteria:
+ Given the user is on the login page, when they enter valid username &#039;admin&#039; and password &#039;password123&#039; and click Login, they should see the dashboard and greeting &#039;Welcome, admin!&#039;
+ Given the user is on the login page, when they enter invalid credentials &#039;admin&#039; and &#039;wrongpass&#039; and click Login, they should see an error message &#039;Invalid username or password&#039;
+ Given the user is logged into the dashboard, when they type &#039;Deploy Agentic-mesh&#039; into the task input and click Add Task, the new item should appear in the todo list
+ Given the user is on the dashboard, when they click Logout, they should be redirected back to the login screen</p>
+    </div>
+
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-label">Total Tests</div>
+        <div class="metric-value val-primary">4</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Success Rate</div>
+        <div class="metric-value val-success">0%</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Clean Passes</div>
+        <div class="metric-value val-success">0</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Self-Healed</div>
+        <div class="metric-value val-healed">0</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Flaky Tests</div>
+        <div class="metric-value val-warning">0</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Failed</div>
+        <div class="metric-value val-danger">4</div>
+      </div>
+    </div>
+
+    <div class="section-title">
+      <span>Auto-Healing Repair Log</span>
+      <span class="count">0 repairs recorded</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Step / Test</th>
+          <th>Original Locator</th>
+          <th>Self-Healed Locator</th>
+          <th>Reason & Changes</th>
+          <th>Resolver Model</th>
+          <th>Confidence</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td colspan="6" class="empty-state">No repairs required — all locators matched existing DOM selectors cleanly.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="section-title">
+      <span>Test Execution Breakdown</span>
+      <span class="count">4 tests</span>
+    </div>
+    <div class="tests-list">
+      
+      <div class="test-card status-failed">
+        <div class="test-card-header">
+          <div class="test-title">
+            <span class="status-indicator status-failed">FAILED</span>
+            <strong>TC-01: Valid login displays dashboard greeting</strong>
+          </div>
+          <div class="test-meta">
+            
+            
+            <span class="duration">0.19s</span>
+          </div>
+        </div>
+        <div class="test-criterion"><strong>Criterion:</strong> Given the user is on the login page, when they enter valid username &#039;admin&#039; and password &#039;password123&#039; and click Login, they should see the dashboard and greeting &#039;Welcome, admin!&#039;</div>
+        <div class="test-error"><strong>Error:</strong> page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3000/
+Call log:
+[2m  - navigating to &quot;http://localhost:3000/&quot;, waiting until &quot;domcontentloaded&quot;[22m
+</div>
+      </div>
+      <div class="test-card status-failed">
+        <div class="test-card-header">
+          <div class="test-title">
+            <span class="status-indicator status-failed">FAILED</span>
+            <strong>TC-02: Invalid login shows error message</strong>
+          </div>
+          <div class="test-meta">
+            
+            
+            <span class="duration">0.18s</span>
+          </div>
+        </div>
+        <div class="test-criterion"><strong>Criterion:</strong> Given the user is on the login page, when they enter invalid credentials &#039;admin&#039; and &#039;wrongpass&#039; and click Login, they should see an error message &#039;Invalid username or password&#039;</div>
+        <div class="test-error"><strong>Error:</strong> page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3000/
+Call log:
+[2m  - navigating to &quot;http://localhost:3000/&quot;, waiting until &quot;domcontentloaded&quot;[22m
+</div>
+      </div>
+      <div class="test-card status-failed">
+        <div class="test-card-header">
+          <div class="test-title">
+            <span class="status-indicator status-failed">FAILED</span>
+            <strong>TC-03: Add new task appears in todo list</strong>
+          </div>
+          <div class="test-meta">
+            
+            
+            <span class="duration">0.13s</span>
+          </div>
+        </div>
+        <div class="test-criterion"><strong>Criterion:</strong> Given the user is logged into the dashboard, when they type &#039;Deploy Agentic-mesh&#039; into the task input and click Add Task, the new item should appear in the todo list</div>
+        <div class="test-error"><strong>Error:</strong> page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3000/
+Call log:
+[2m  - navigating to &quot;http://localhost:3000/&quot;, waiting until &quot;domcontentloaded&quot;[22m
+</div>
+      </div>
+      <div class="test-card status-failed">
+        <div class="test-card-header">
+          <div class="test-title">
+            <span class="status-indicator status-failed">FAILED</span>
+            <strong>TC-04: Logout redirects to login page</strong>
+          </div>
+          <div class="test-meta">
+            
+            
+            <span class="duration">0.13s</span>
+          </div>
+        </div>
+        <div class="test-criterion"><strong>Criterion:</strong> Given the user is on the dashboard, when they click Logout, they should be redirected back to the login screen</div>
+        <div class="test-error"><strong>Error:</strong> page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3000/
+Call log:
+[2m  - navigating to &quot;http://localhost:3000/&quot;, waiting until &quot;domcontentloaded&quot;[22m
+</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

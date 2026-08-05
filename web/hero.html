@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Agentic-mesh</title>
+    <!-- VectorWordmark asks for Inter 800 by default; without this the canvas falls
+         back to the UA serif. The component re-bakes its glyph atlas on
+         document.fonts.ready, so a late-landing webfont still renders correctly. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Nothing visual: just the reset that lets a 100vw x 100vh section fill the
+         viewport without the UA body margin turning it into a scrollable page. */
+      html,
+      body,
+      #hero-root {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="hero-root"></div>
+    <script type="module" src="/hero/main.tsx"></script>
+  </body>
+</html>

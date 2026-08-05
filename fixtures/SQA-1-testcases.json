@@ -1,0 +1,151 @@
+{
+  "ticket": {
+    "key": "SQA-1",
+    "title": "User Authentication and Todo Management Flow",
+    "description": "As a registered user, I want to securely log in, manage my daily tasks, and safely log out.\n  Acceptance Criteria:\n Given the user is on the login page, when they enter valid username 'admin' and password 'password123' and click Login, they should see the dashboard and greeting 'Welcome, admin!'\n Given the user is on the login page, when they enter invalid credentials 'admin' and 'wrongpass' and click Login, they should see an error message 'Invalid username or password'\n Given the user is logged into the dashboard, when they type 'Deploy Agentic-mesh' into the task input and click Add Task, the new item should appear in the todo list\n Given the user is on the dashboard, when they click Logout, they should be redirected back to the login screen",
+    "acceptanceCriteria": [
+      "Given the user is on the login page, when they enter valid username 'admin' and password 'password123' and click Login, they should see the dashboard and greeting 'Welcome, admin!'",
+      "Given the user is on the login page, when they enter invalid credentials 'admin' and 'wrongpass' and click Login, they should see an error message 'Invalid username or password'",
+      "Given the user is logged into the dashboard, when they type 'Deploy Agentic-mesh' into the task input and click Add Task, the new item should appear in the todo list",
+      "Given the user is on the dashboard, when they click Logout, they should be redirected back to the login screen"
+    ]
+  },
+  "testCases": [
+    {
+      "id": "TC-01",
+      "title": "Valid login displays dashboard greeting",
+      "criterion": "Given the user is on the login page, when they enter valid username 'admin' and password 'password123' and click Login, they should see the dashboard and greeting 'Welcome, admin!'",
+      "steps": [
+        {
+          "description": "Navigate to login page",
+          "action": "navigate",
+          "target": "login page"
+        },
+        {
+          "description": "Fill username with 'admin'",
+          "action": "fill",
+          "target": "#username",
+          "value": "admin"
+        },
+        {
+          "description": "Fill password with 'password123'",
+          "action": "fill",
+          "target": "#password",
+          "value": "password123"
+        },
+        {
+          "description": "Click the Login button",
+          "action": "click",
+          "target": "#loginBtn"
+        }
+      ],
+      "expectedOutcome": "Dashboard is displayed and greeting text 'Welcome, admin!' is visible"
+    },
+    {
+      "id": "TC-02",
+      "title": "Invalid login shows error message",
+      "criterion": "Given the user is on the login page, when they enter invalid credentials 'admin' and 'wrongpass' and click Login, they should see an error message 'Invalid username or password'",
+      "steps": [
+        {
+          "description": "Navigate to login page",
+          "action": "navigate",
+          "target": "login page"
+        },
+        {
+          "description": "Fill username with 'admin'",
+          "action": "fill",
+          "target": "#username",
+          "value": "admin"
+        },
+        {
+          "description": "Fill password with 'wrongpass'",
+          "action": "fill",
+          "target": "#password",
+          "value": "wrongpass"
+        },
+        {
+          "description": "Click the Login button",
+          "action": "click",
+          "target": "#loginBtn"
+        }
+      ],
+      "expectedOutcome": "Error message 'Invalid username or password' is displayed"
+    },
+    {
+      "id": "TC-03",
+      "title": "Add new task appears in todo list",
+      "criterion": "Given the user is logged into the dashboard, when they type 'Deploy Agentic-mesh' into the task input and click Add Task, the new item should appear in the todo list",
+      "steps": [
+        {
+          "description": "Navigate to login page",
+          "action": "navigate",
+          "target": "login page"
+        },
+        {
+          "description": "Fill username with 'admin'",
+          "action": "fill",
+          "target": "#username",
+          "value": "admin"
+        },
+        {
+          "description": "Fill password with 'password123'",
+          "action": "fill",
+          "target": "#password",
+          "value": "password123"
+        },
+        {
+          "description": "Click the Login button",
+          "action": "click",
+          "target": "#loginBtn"
+        },
+        {
+          "description": "Fill task input with 'Deploy Agentic-mesh'",
+          "action": "fill",
+          "target": "#newTask",
+          "value": "Deploy Agentic-mesh"
+        },
+        {
+          "description": "Click the Add Task button",
+          "action": "click",
+          "target": "#addTaskBtn"
+        }
+      ],
+      "expectedOutcome": "Todo list contains an item with text 'Deploy Agentic-mesh'"
+    },
+    {
+      "id": "TC-04",
+      "title": "Logout returns to login screen",
+      "criterion": "Given the user is on the dashboard, when they click Logout, they should be redirected back to the login screen",
+      "steps": [
+        {
+          "description": "Navigate to login page",
+          "action": "navigate",
+          "target": "login page"
+        },
+        {
+          "description": "Fill username with 'admin'",
+          "action": "fill",
+          "target": "#username",
+          "value": "admin"
+        },
+        {
+          "description": "Fill password with 'password123'",
+          "action": "fill",
+          "target": "#password",
+          "value": "password123"
+        },
+        {
+          "description": "Click the Login button",
+          "action": "click",
+          "target": "#loginBtn"
+        },
+        {
+          "description": "Click the Logout button",
+          "action": "click",
+          "target": "#logoutBtn"
+        }
+      ],
+      "expectedOutcome": "User is redirected to the login page"
+    }
+  ]
+}

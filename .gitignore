@@ -1,0 +1,14 @@
+dist
+node_modules
+.DS_Store
+.env
+
+# Web console build output and generated run artifacts
+web/dist
+runs/
+.e2e-runs/
+server/reports/
+
+# Playwright output
+test-results/
+playwright-report/

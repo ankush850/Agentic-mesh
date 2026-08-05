@@ -1,0 +1,12 @@
+{
+  "key": "QA-101",
+  "title": "User Authentication and Todo Management Flow",
+  "description": "As a registered user, I want to securely log in, manage my daily tasks, and safely log out of the application.",
+  "acceptanceCriteria": [
+    "Given the user is on the login page, when they enter valid username 'admin' and password 'password123' and click Login, they should see the dashboard and greeting 'Welcome, admin!'",
+    "Given the user is on the login page, when they enter invalid credentials 'admin' and 'wrongpass' and click Login, they should see an error message 'Invalid username or password'",
+    "Given the user is logged into the dashboard, when they type 'Deploy Agentic-mesh' into the task input and click Add Task, the new item should appear in the todo list",
+    "Given the user is on the dashboard, when they click Logout, they should be redirected back to the login screen"
+  ]
+}
+

@@ -1,0 +1,340 @@
+/* ==========================================================================
+   Agentic-mesh Enterprise Console Stylesheet
+   Demonstrates custom properties, media queries, keyframes, and specificities.
+   ========================================================================== */
+
+:root {
+  /* Declared CSS Custom Properties (FR-P3) */
+  --tso-primary: #38bdf8;
+  --tso-primary-hover: #0ea5e9;
+  --tso-bg: #070b14;
+  --tso-surface: #0d1424;
+  --tso-surface-2: #111b2f;
+  --tso-surface-3: #16223a;
+  --tso-border: #1f2c45;
+  --tso-text-primary: #e8eefb;
+  --tso-text-muted: #93a3bd;
+  --tso-success: #10b981;
+  --tso-warning: #f59e0b;
+  --tso-danger: #ef4444;
+  --tso-radius-sm: 6px;
+  --tso-radius-md: 12px;
+  --tso-radius-lg: 16px;
+  --tso-shadow-card: 0 18px 40px -24px rgb(0 0 0 / 0.85);
+  --tso-transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Base Body Layout */
+body.sentinel-app {
+  margin: 0;
+  padding: 0;
+  background-color: var(--tso-bg);
+  color: var(--tso-text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+/* Header & Navigation Landmark */
+header.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background-color: var(--tso-surface);
+  border-bottom: 1px solid var(--tso-border);
+  box-shadow: var(--tso-shadow-card);
+}
+
+.nav-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0.75rem 1.5rem;
+}
+
+.brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.brand-title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--tso-text-primary);
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 1.25rem;
+}
+
+.nav-item a.nav-link {
+  color: var(--tso-text-muted);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: var(--tso-transition);
+}
+
+.nav-item.active a.nav-link,
+.nav-item a.nav-link:hover {
+  color: var(--tso-primary);
+}
+
+/* Main Layout Grid */
+main.app-main {
+  max-width: 1300px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Hero Summary Section */
+section.hero-card {
+  background-color: var(--tso-surface);
+  border: 1px solid var(--tso-border);
+  border-radius: var(--tso-radius-lg);
+  padding: 2rem;
+  box-shadow: var(--tso-shadow-card);
+}
+
+h2.section-title {
+  margin-top: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--tso-text-primary);
+}
+
+p.section-desc {
+  color: var(--tso-text-muted);
+  font-size: 0.95rem;
+  max-width: 48rem;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.stat-box {
+  background-color: var(--tso-surface-2);
+  border: 1px solid var(--tso-border);
+  border-radius: var(--tso-radius-md);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  color: var(--tso-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--tso-primary);
+}
+
+/* Card Panels */
+section.card-panel {
+  background-color: var(--tso-surface);
+  border: 1px solid var(--tso-border);
+  border-radius: var(--tso-radius-lg);
+  padding: 1.75rem;
+}
+
+h3.panel-title {
+  margin-top: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  border-bottom: 1px solid var(--tso-border);
+  padding-bottom: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+/* Forms & Inputs */
+.qa-form {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+label.form-label {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--tso-text-muted);
+}
+
+input.form-input,
+select.form-select {
+  background-color: var(--tso-surface-2);
+  border: 1px solid var(--tso-border);
+  border-radius: var(--tso-radius-sm);
+  color: var(--tso-text-primary);
+  padding: 0.6rem 0.85rem;
+  font-size: 0.875rem;
+  outline: none;
+  transition: var(--tso-transition);
+}
+
+input.form-input:focus,
+select.form-select:focus {
+  border-color: var(--tso-primary);
+  box-shadow: 0 0 0 2px rgb(56 189 248 / 0.25);
+}
+
+.form-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+/* Buttons */
+button.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: var(--tso-radius-sm);
+  padding: 0.6rem 1.25rem;
+  cursor: pointer;
+  border: none;
+  transition: var(--tso-transition);
+}
+
+button.btn-primary {
+  background-color: var(--tso-primary);
+  color: #04121f;
+}
+
+button.btn-primary:hover {
+  background-color: var(--tso-primary-hover);
+}
+
+button.btn-secondary {
+  background-color: var(--tso-surface-3);
+  color: var(--tso-text-primary);
+  border: 1px solid var(--tso-border);
+}
+
+button.btn-ghost {
+  background: transparent;
+  color: var(--tso-text-muted);
+  padding: 0.4rem 0.6rem;
+}
+
+/* Repeated Roster List */
+ul.roster-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+li.test-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background-color: var(--tso-surface-2);
+  border: 1px solid var(--tso-border);
+  border-radius: var(--tso-radius-sm);
+}
+
+span.status-badge.passed {
+  color: var(--tso-success);
+  background-color: rgb(16 185 129 / 0.15);
+  padding: 0.2rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+span.status-badge.healed {
+  color: var(--tso-warning);
+  background-color: rgb(245 158 11 / 0.15);
+  padding: 0.2rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* Intentional duplicate selector to test duplicate detection (FR-P3) */
+button.btn-primary {
+  box-shadow: 0 4px 12px rgb(56 189 248 / 0.25);
+}
+
+/* Intentional duplicate declaration to test duplicate declaration detection (FR-P3) */
+.brand-title {
+  color: #ffffff;
+  color: var(--tso-text-primary);
+}
+
+/* Intentional unused CSS class to test cross-file connection warnings (FR-P5d) */
+.unused-legacy-widget {
+  background-color: #ff0055;
+  color: #ffffff;
+  padding: 1rem;
+}
+
+/* At-rule: Keyframes Animation (FR-P3) */
+@keyframes pulseIndicator {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.96);
+  }
+}
+
+/* At-rule: Media Queries (FR-P3) */
+@media (max-width: 768px) {
+  .nav-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .nav-links {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 1024px) {
+  .qa-form {
+    grid-template-columns: 1fr 1fr;
+  }
+  .form-actions {
+    grid-column: span 2;
+  }
+}

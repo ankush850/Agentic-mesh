@@ -1,0 +1,366 @@
+@import "tailwindcss";
+
+/* -----------------------------------------------------------------------------
+   Ocean Blue Serenity — the palette, declared once. These are raw colour tokens:
+   they never change with the theme, and every semantic variable below points at
+   one of them. Tailwind v4 reads `@theme` as theme.extend.colors, so these names
+   are also usable directly as utilities (bg-navy-950, text-cyan-300, …).
+   Note this deliberately shadows Tailwind's own cyan-100..500 scale, which the
+   console never used.
+----------------------------------------------------------------------------- */
+@theme {
+  --color-navy-950: #03045e;
+  --color-navy-800: #023e8a;
+  --color-blue-600: #0077b6;
+  --color-blue-500: #0096c7;
+  --color-cyan-500: #00b4d8;
+  --color-cyan-400: #48cae4;
+  --color-cyan-300: #90e0ef;
+  --color-cyan-200: #ade8f4;
+  --color-cyan-100: #caf0f8;
+  --color-white: #ffffff;
+}
+
+/**
+ * The one and only theme: Ocean Blue Serenity on white. Dark mode has been
+ * removed, so there is no `.dark` variant and no `data-theme` switch — every
+ * value the console renders lives here. Roles follow the palette spec: white
+ * page, cyan-100 alternating sections, navy-950 text, blue-600 primary,
+ * cyan-200 hairlines. Status tones (passed / failed / healed / flaky / queued)
+ * stay functional rather than being folded into the blues, so a failure still
+ * reads as a failure.
+ */
+:root {
+  /* Native widgets (scrollbars, form fields) render light. */
+  color-scheme: light;
+  --bg: var(--color-white);
+  --surface: var(--color-white);
+  --surface-2: var(--color-cyan-100);
+  --surface-3: var(--color-cyan-200);
+  --line: var(--color-cyan-200);
+  --line-strong: var(--color-cyan-300);
+  --fg: var(--color-navy-950);
+  --muted: var(--color-navy-800);
+  --accent: var(--color-blue-600);
+  --accent-strong: var(--color-navy-800);
+  --passed: #047857;
+  --failed: #b91c1c;
+  --healed: #b45309;
+  --flaky: #6d28d9;
+  --running: var(--color-blue-600);
+  --queued: #64748b;
+  /* Ink that sits on top of --accent / --accent-strong. blue-600 and navy-800
+     are both dark enough to carry white text at AA. */
+  --on-accent: var(--color-white);
+  --on-accent-strong: var(--color-white);
+  --focus: var(--color-cyan-500);
+  /* Active / selected surface and the ink on it. */
+  --highlight: var(--color-cyan-300);
+  --on-highlight: var(--color-navy-950);
+  /* Secondary button role. */
+  --btn-secondary-bg: var(--color-white);
+  --btn-secondary-fg: var(--color-blue-600);
+  /* blue-600 text only clears AA on white (4.87). On any cyan tint it drops to
+     4.02, so the hover state darkens its ink to navy-800 (8.42) instead. */
+  --btn-secondary-fg-hover: var(--color-navy-800);
+  --btn-secondary-border: var(--color-blue-600);
+  --btn-secondary-bg-hover: var(--color-cyan-100);
+  --shadow: 0 18px 40px -30px rgb(15 27 45 / 0.45);
+  /* Motion — one shared curve and set of durations so every hover and reveal
+     in the console agrees. The lifted shadow is navy-950 tinted rather than
+     neutral grey, so a raised card still reads as part of the palette. */
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 150ms;
+  --dur: 220ms;
+  --dur-slow: 480ms;
+  --shadow-hover: 0 22px 46px -28px rgb(3 4 94 / 0.26);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-passed: var(--passed);
+  --color-failed: var(--failed);
+  --color-healed: var(--healed);
+  --color-flaky: var(--flaky);
+  --color-running: var(--running);
+  --color-queued: var(--queued);
+  --color-on-accent: var(--on-accent);
+  --color-on-accent-strong: var(--on-accent-strong);
+  --color-focus: var(--focus);
+  --color-highlight: var(--highlight);
+  --color-on-highlight: var(--on-highlight);
+  --color-btn-secondary-bg: var(--btn-secondary-bg);
+  --color-btn-secondary-fg: var(--btn-secondary-fg);
+  --color-btn-secondary-fg-hover: var(--btn-secondary-fg-hover);
+  --color-btn-secondary-border: var(--btn-secondary-border);
+  --color-btn-secondary-bg-hover: var(--btn-secondary-bg-hover);
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Consolas, monospace;
+}
+
+@layer base {
+  * {
+    border-color: var(--line);
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--line-strong);
+    border-radius: 999px;
+  }
+}
+
+@layer utilities {
+  .surface-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+  }
+
+  /* Pointer feedback is opt-in, and deliberately not on .surface-card: the large
+     section cards stay flat and only the small KPI-style boxes lift.
+     border-color is left out on purpose — the coloured tiles own their border and
+     a hover rule (0,2,0) would otherwise beat .tile-* (0,1,0) and wash it out. */
+  .box-hover {
+    transition:
+      transform var(--dur) var(--ease-soft),
+      box-shadow var(--dur) var(--ease-soft);
+  }
+
+  .box-hover:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-hover);
+  }
+
+  /* KPI tiles wear their status colour: a light wash of the tone over the card's
+     white, with a border in the same hue. Declared after .surface-card so the
+     tint wins the cascade at equal specificity. The wash is capped at 8% so that
+     even the darkest tone text stays above WCAG AA on the tint itself — the
+     worst pairing (healed amber on amber) measures 4.52:1. Every tone uses the
+     same formula, including queued, so a tile always matches the badge inside it. */
+  .tile-passed {
+    background: color-mix(in srgb, var(--passed) 8%, var(--surface));
+    border-color: color-mix(in srgb, var(--passed) 35%, transparent);
+  }
+  .tile-failed {
+    background: color-mix(in srgb, var(--failed) 8%, var(--surface));
+    border-color: color-mix(in srgb, var(--failed) 35%, transparent);
+  }
+  .tile-healed {
+    background: color-mix(in srgb, var(--healed) 8%, var(--surface));
+    border-color: color-mix(in srgb, var(--healed) 35%, transparent);
+  }
+  .tile-flaky {
+    background: color-mix(in srgb, var(--flaky) 8%, var(--surface));
+    border-color: color-mix(in srgb, var(--flaky) 35%, transparent);
+  }
+  .tile-running {
+    background: color-mix(in srgb, var(--running) 8%, var(--surface));
+    border-color: color-mix(in srgb, var(--running) 35%, transparent);
+  }
+  .tile-queued {
+    background: color-mix(in srgb, var(--queued) 8%, var(--surface));
+    border-color: color-mix(in srgb, var(--queued) 35%, transparent);
+  }
+
+  /* Entrance reveals. The fill mode is `backwards`, not `both`, on purpose:
+     `backwards` holds the first keyframe across the delay and then releases the
+     element, whereas `both` would keep the animation's final `transform` pinned
+     to the element forever — and a finished animation outranks a normal rule in
+     the cascade, which would silently kill the :hover lift above. */
+  .animate-rise {
+    animation: rise var(--dur-slow) var(--ease-soft) backwards;
+  }
+
+  .animate-fade {
+    animation: fade var(--dur-slow) ease-out backwards;
+  }
+
+  .animate-pop {
+    animation: pop 320ms var(--ease-soft) backwards;
+  }
+
+  /* Children of .stagger reveal in sequence, without needing a delay prop on
+     each one. Past the eighth child the delay is capped so long lists do not
+     trickle in forever. */
+  .stagger > * {
+    animation: rise var(--dur-slow) var(--ease-soft) backwards;
+  }
+  .stagger > *:nth-child(1) {
+    animation-delay: 40ms;
+  }
+  .stagger > *:nth-child(2) {
+    animation-delay: 90ms;
+  }
+  .stagger > *:nth-child(3) {
+    animation-delay: 140ms;
+  }
+  .stagger > *:nth-child(4) {
+    animation-delay: 190ms;
+  }
+  .stagger > *:nth-child(5) {
+    animation-delay: 240ms;
+  }
+  .stagger > *:nth-child(6) {
+    animation-delay: 290ms;
+  }
+  .stagger > *:nth-child(7) {
+    animation-delay: 340ms;
+  }
+  .stagger > *:nth-child(n + 8) {
+    animation-delay: 390ms;
+  }
+
+  .pulse-dot {
+    animation: pulse-dot 1.6s ease-in-out infinite;
+  }
+
+  .shimmer {
+    background: linear-gradient(90deg, var(--surface-2) 25%, var(--surface-3) 37%, var(--surface-2) 63%);
+    background-size: 400% 100%;
+    animation: shimmer 1.4s ease infinite;
+  }
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(0.82);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pulse-dot,
+  .shimmer,
+  .animate-rise,
+  .animate-fade,
+  .animate-pop,
+  .stagger > * {
+    animation: none !important;
+  }
+
+  /* Keep the colour and shadow response so hover feedback is not lost —
+     just remove the movement itself. */
+  .box-hover:hover {
+    transform: none;
+  }
+}
+
+/* ==========================================================================
+   TREE-SITTER & TOKEN OPTIMIZER (TSO) STYLES (FR-U2)
+   All rules strictly namespaced under .tso- prefix.
+   Reuses existing CSS design tokens: --surface, --surface-2, --line, etc.
+   Zero modifications to pre-existing CSS rules.
+   ========================================================================== */
+
+.tso-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.tso-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.tso-code-pane {
+  background-color: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+  font-family: var(--font-mono);
+  color: var(--fg);
+}
+
+.tso-node-highlight {
+  background-color: rgb(56 189 248 / 0.18);
+  border-left: 2px solid var(--accent);
+}
+
+.tso-badge-verified {
+  border-color: rgb(16 185 129 / 0.4);
+  background-color: rgb(16 185 129 / 0.15);
+  color: var(--passed);
+}

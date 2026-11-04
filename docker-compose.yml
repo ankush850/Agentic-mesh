@@ -1,0 +1,45 @@
+version: "3.8"
+
+services:
+  redis-broker:
+    image: redis:7-alpine
+    container_name: redis-broker
+    ports:
+      - "6379:6379"
+
+  collector-daemon:
+    build:
+      context: ./collector
+      dockerfile: Dockerfile
+    container_name: collector-daemon
+    environment:
+      - REDIS_URL=redis://redis-broker:6379
+      - COLLECTOR_HTTP_PORT=5141
+    ports:
+      - "5141:5141"
+    depends_on:
+      - redis-broker
+
+  mock-auth:
+    build:
+      context: .
+      dockerfile: services/auth/Dockerfile
+    container_name: mock-auth
+    ports:
+      - "3001:3001"
+
+  mock-payment:
+    build:
+      context: .
+      dockerfile: services/payment/Dockerfile
+    container_name: mock-payment
+    ports:
+      - "3002:3002"
+
+  mock-ingestion:
+    build:
+      context: .
+      dockerfile: services/ingestion/Dockerfile
+    container_name: mock-ingestion
+    ports:
+      - "3003:3003"

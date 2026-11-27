@@ -1,6 +1,6 @@
 # Agentic-mesh 🛡️
 ### Autonomous UI Test Generation, Self-Healing Locators & Jira Integration
-*Hackathon Problem Statement 08: "The Flaky Testing Nightmare"*
+
 
 Agentic-mesh transforms Jira acceptance criteria into automated, executable Playwright UI tests, runs them against modern web applications, autonomously self-heals broken or refactored DOM locators using a hybrid Healenium-inspired similarity pre-filter and LLM decision engine, and produces interactive visual reports with full repair audit trails.
 

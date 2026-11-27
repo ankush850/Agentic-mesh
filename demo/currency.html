@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Currency Converter</title>
+  <style>
+    body { font-family: sans-serif; background: #0f172a; color: #f8fafc; padding: 2rem; display: flex; justify-content: center; }
+    .card { background: #1e293b; padding: 2rem; border-radius: 12px; width: 340px; }
+    input { width: 100%; padding: 0.6rem; margin-bottom: 1rem; background: #0f172a; color: white; border: 1px solid #334155; border-radius: 6px; box-sizing: border-box; }
+    button { width: 100%; padding: 0.75rem; background: #3b82f6; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
+    #converted { margin-top: 1rem; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Currency Converter</h1>
+    <input type="number" id="amount" placeholder="USD amount" />
+    <button type="button" id="convert-btn">Convert to EUR</button>
+    <div id="converted"></div>
+  </div>
+  <script>
+    document.getElementById("convert-btn").addEventListener("click", () => {
+      const amt = parseFloat(document.getElementById("amount").value) || 0;
+      const eur = (amt * 0.85).toFixed(2);
+      document.getElementById("converted").innerText = amt + " USD = " + eur + " EUR";
+    });
+  </script>
+</body>
+</html>

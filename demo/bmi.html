@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>BMI Calculator</title>
+  <style>
+    body { font-family: sans-serif; background: #0f172a; color: #f8fafc; padding: 2rem; display: flex; justify-content: center; }
+    .card { background: #1e293b; padding: 2rem; border-radius: 12px; width: 340px; }
+    input { width: 100%; padding: 0.6rem; margin-bottom: 1rem; background: #0f172a; color: white; border: 1px solid #334155; border-radius: 6px; box-sizing: border-box; }
+    button { width: 100%; padding: 0.75rem; background: #3b82f6; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
+    #bmi-result { margin-top: 1rem; font-weight: bold; font-size: 1.1rem; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>BMI Calculator</h1>
+    <input type="number" step="0.01" id="height" placeholder="Height in meters (e.g. 1.75)" />
+    <input type="number" step="0.1" id="weight" placeholder="Weight in kg (e.g. 70)" />
+    <button type="button" id="calc-btn">Calculate</button>
+    <div id="bmi-result"></div>
+  </div>
+  <script>
+    document.getElementById("calc-btn").addEventListener("click", () => {
+      const h = parseFloat(document.getElementById("height").value);
+      const w = parseFloat(document.getElementById("weight").value);
+      if (h > 0 && w > 0) {
+        const bmi = (w / (h * h)).toFixed(1);
+        let category = "Normal";
+        if (bmi >= 30) category = "Obese";
+        else if (bmi >= 25) category = "Overweight";
+        else if (bmi < 18.5) category = "Underweight";
+        document.getElementById("bmi-result").innerText = bmi + " (" + category + ")";
+      }
+    });
+  </script>
+</body>
+</html>

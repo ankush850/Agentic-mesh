@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fruit Search</title>
+  <style>
+    body { font-family: sans-serif; background: #0f172a; color: #f8fafc; padding: 2rem; display: flex; justify-content: center; }
+    .card { background: #1e293b; padding: 2rem; border-radius: 12px; width: 320px; }
+    input { width: 100%; padding: 0.6rem; margin-bottom: 1rem; background: #0f172a; color: white; border: 1px solid #334155; border-radius: 6px; box-sizing: border-box; }
+    ul { list-style: none; padding: 0; }
+    li { background: #0f172a; padding: 0.5rem; margin-bottom: 0.5rem; border-radius: 4px; }
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Fruit Search</h2>
+    <input type="text" id="search-input" placeholder="Search fruit..." />
+    <ul id="fruit-list">
+      <li class="fruit-item">Apple</li>
+      <li class="fruit-item">Banana</li>
+      <li class="fruit-item">Mango</li>
+      <li class="fruit-item">Grape</li>
+    </ul>
+    <p id="no-results" class="hidden" style="color:#ef4444;">No results</p>
+  </div>
+  <script>
+    document.getElementById("search-input").addEventListener("input", (e) => {
+      const q = e.target.value.toLowerCase().trim();
+      const items = document.querySelectorAll(".fruit-item");
+      let visibleCount = 0;
+      items.forEach(it => {
+        if (it.innerText.toLowerCase().includes(q)) {
+          it.classList.remove("hidden");
+          visibleCount++;
+        } else {
+          it.classList.add("hidden");
+        }
+      });
+      document.getElementById("no-results").classList.toggle("hidden", visibleCount > 0);
+    });
+  </script>
+</body>
+</html>

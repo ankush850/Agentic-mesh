@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agentic-mesh Showcase Application</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --border: #334155;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --primary: #3b82f6;
+      --primary-hover: #2563eb;
+      --danger: #ef4444;
+      --danger-bg: #450a0a;
+      --success: #10b981;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 1.5rem;
+    }
+    .container {
+      width: 100%;
+      max-width: 480px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.5);
+    }
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      margin-bottom: 1.25rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .badge-v1 { background: #1e3a8a; color: #93c5fd; border: 1px solid #3b82f6; }
+    .badge-v2 { background: #581c87; color: #d8b4fe; border: 1px solid #a855f7; }
+    h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; }
+    p.subtitle { color: var(--muted); font-size: 0.875rem; margin-bottom: 1.5rem; }
+    .form-group { margin-bottom: 1.25rem; }
+    label { display: block; font-size: 0.8125rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--muted); text-transform: uppercase; }
+    input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background: #0f172a;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 0.9375rem;
+      outline: none;
+    }
+    input:focus { border-color: var(--primary); }
+    button {
+      padding: 0.75rem 1.25rem;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button:hover { background: var(--primary-hover); }
+    .w-full { width: 100%; }
+    .error-box {
+      display: none;
+      background: var(--danger-bg);
+      border: 1px solid var(--danger);
+      color: #fca5a5;
+      padding: 0.75rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      font-size: 0.875rem;
+    }
+    .todo-list {
+      list-style: none;
+      margin-top: 1rem;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    .todo-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.625rem 0.875rem;
+      background: #0f172a;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      margin-bottom: 0.5rem;
+      font-size: 0.875rem;
+    }
+    .flex-row { display: flex; gap: 0.5rem; }
+    .mt-4 { margin-top: 1rem; }
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div id="version-badge" class="badge badge-v1">App Build: v1 (Original DOM)</div>
+    
+    <!-- Login Screen -->
+    <div id="login-section">
+      <h1>User Authentication</h1>
+      <p class="subtitle">Enter credentials to sign in to the application.</p>
+      
+      <div id="error-msg" class="error-box">Invalid username or password</div>
+
+      <div id="login-form">
+        <!-- Rendered dynamically by script based on v1 or v2 -->
+      </div>
+    </div>
+
+    <!-- Dashboard Screen -->
+    <div id="dashboard-section" class="hidden">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+        <h1 id="welcome-header">Welcome, admin!</h1>
+        <div id="logout-container"></div>
+      </div>
+
+      <div class="form-group">
+        <label>Manage Todo Items</label>
+        <div id="todo-form" class="flex-row">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+
+      <ul id="todo-list" class="todo-list">
+        <li class="todo-item task-item">Initial setup and configuration</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    const isV2 = window.location.search.includes("v=2");
+    const badge = document.getElementById("version-badge");
+    const loginForm = document.getElementById("login-form");
+    const logoutContainer = document.getElementById("logout-container");
+    const todoForm = document.getElementById("todo-form");
+    const errorMsg = document.getElementById("error-msg");
+    const loginSection = document.getElementById("login-section");
+    const dashboardSection = document.getElementById("dashboard-section");
+    const todoList = document.getElementById("todo-list");
+
+    if (isV2) {
+      badge.className = "badge badge-v2";
+      badge.textContent = "App Build: v2 (Refactored DOM)";
+      
+      // v2 DOM structure
+      loginForm.innerHTML = `
+        <div class="form-group">
+          <label for="user-account-input">Username</label>
+          <input type="text" id="user-account-input" data-test="user-account-input" placeholder="admin" autocomplete="off" />
+        </div>
+        <div class="form-group">
+          <label for="user-secret-key">Password</label>
+          <input type="password" id="user-secret-key" data-test="user-secret-key" placeholder="••••••••" autocomplete="off" />
+        </div>
+        <button type="button" id="btn-submit-auth" class="w-full">Login</button>
+      `;
+
+      logoutContainer.innerHTML = `
+        <button type="button" id="btn-terminate-session" style="background: #334155; padding: 0.5rem 0.875rem; font-size: 0.8125rem;">Logout</button>
+      `;
+
+      todoForm.innerHTML = `
+        <input type="text" id="task-entry-field" placeholder="Enter new task..." />
+        <button type="button" id="create-task-button">Add Task</button>
+      `;
+    } else {
+      // v1 DOM structure
+      loginForm.innerHTML = `
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" placeholder="admin" autocomplete="off" />
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="••••••••" autocomplete="off" />
+        </div>
+        <button type="button" id="login-btn" class="w-full">Login</button>
+      `;
+
+      logoutContainer.innerHTML = `
+        <button type="button" id="logout-btn" style="background: #334155; padding: 0.5rem 0.875rem; font-size: 0.8125rem;">Logout</button>
+      `;
+
+      todoForm.innerHTML = `
+        <input type="text" id="todo-input" placeholder="Enter new task..." />
+        <button type="button" id="add-todo-btn">Add Task</button>
+      `;
+    }
+
+    // Attach Action Listeners
+    const loginBtn = isV2 ? document.getElementById("btn-submit-auth") : document.getElementById("login-btn");
+    loginBtn.addEventListener("click", () => {
+      const uField = isV2 ? document.getElementById("user-account-input") : document.getElementById("username");
+      const pField = isV2 ? document.getElementById("user-secret-key") : document.getElementById("password");
+      
+      const uVal = uField ? uField.value.trim() : "";
+      const pVal = pField ? pField.value.trim() : "";
+
+      if (uVal === "admin" && pVal === "password123") {
+        errorMsg.style.display = "none";
+        loginSection.classList.add("hidden");
+        dashboardSection.classList.remove("hidden");
+      } else {
+        errorMsg.style.display = "block";
+      }
+    });
+
+    const logoutBtn = isV2 ? document.getElementById("btn-terminate-session") : document.getElementById("logout-btn");
+    logoutBtn.addEventListener("click", () => {
+      dashboardSection.classList.add("hidden");
+      loginSection.classList.remove("hidden");
+      errorMsg.style.display = "none";
+      const uField = isV2 ? document.getElementById("user-account-input") : document.getElementById("username");
+      const pField = isV2 ? document.getElementById("user-secret-key") : document.getElementById("password");
+      if (uField) uField.value = "";
+      if (pField) pField.value = "";
+    });
+
+    const addTaskBtn = isV2 ? document.getElementById("create-task-button") : document.getElementById("add-todo-btn");
+    addTaskBtn.addEventListener("click", () => {
+      const tInput = isV2 ? document.getElementById("task-entry-field") : document.getElementById("todo-input");
+      const val = tInput ? tInput.value.trim() : "";
+      if (val) {
+        const li = document.createElement("li");
+        li.className = "todo-item task-item";
+        li.textContent = val;
+        todoList.appendChild(li);
+        tInput.value = "";
+      }
+    });
+  </script>
+</body>
+</html>
